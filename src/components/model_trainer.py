@@ -51,7 +51,65 @@ class ModelTrainer:
         "Ridge":Ridge(),
 
       }
-      model_report:dict = evaluate_models(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,models=models)
+      params = {
+    
+    "Linear Regression": {
+        "fit_intercept": [True, False],
+        "positive": [True, False]
+    },
+
+    "AdaBoost Regressor": {
+        "n_estimators": [50, 100, 200],
+        "learning_rate": [0.01, 0.05, 0.1, 0.5, 1.0],
+        "loss": ["linear", "square", "exponential"]
+    },
+
+    "DecisionTree Regressor": {
+        "criterion": ["squared_error", "friedman_mse", "absolute_error"],
+        "max_depth": [None, 3, 5, 7, 10, 15],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "max_features": [None, "sqrt", "log2"]
+    },
+
+    "CatBoost Regressor": {
+        "iterations": [100, 200, 300],
+        "learning_rate": [0.01, 0.05, 0.1],
+        "depth": [4, 6, 8, 10],
+        "l2_leaf_reg": [1, 3, 5, 7]
+    },
+
+    "RandomForest Regressor": {
+        "n_estimators": [100, 200, 300],
+        "max_depth": [None, 5, 10, 15, 20],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "max_features": [1.0, "sqrt", "log2"]
+    },
+
+    "KNeighbors Regressor": {
+        "n_neighbors": [3, 5, 7, 9, 11, 15],
+        "weights": ["uniform", "distance"],
+        "algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
+        "p": [1, 2]
+    },
+
+    "XGB Regressor": {
+        "n_estimators": [100, 200, 300],
+        "learning_rate": [0.01, 0.05, 0.1],
+        "max_depth": [3, 5, 7],
+        "min_child_weight": [1, 3, 5],
+        "subsample": [0.7, 0.8, 1.0],
+        "colsample_bytree": [0.7, 0.8, 1.0]
+    },
+
+    "Ridge": {
+        "alpha": [0.01, 0.1, 1, 10, 100],
+        "fit_intercept": [True, False],
+        "solver": ["auto", "svd", "cholesky", "lsqr", "sag", "saga"]
+    }
+}
+      model_report:dict = evaluate_models(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,models=models,params=params)
 
       best_model_score = max(sorted(model_report.values()))
 
